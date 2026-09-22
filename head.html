@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thiệp Mời Đám Cưới</title>
+    <!-- Google Fonts cho typography sang trọng -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #d4af37; /* Màu vàng đồng sang trọng */
+            --bg-color: #fdfbf7; /* Trắng ngà/kem */
+            --text-main: #333333;
+            --text-light: #666666;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+        }
+
+        /* --- MÀN HÌNH CHỌN (LANDING PAGE) --- */
+        #landing-page {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(rgba(253, 251, 247, 0.85), rgba(253, 251, 247, 0.85)), url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2070&auto=format&fit=crop') center/cover;
+            text-align: center;
+            transition: opacity 0.5s ease;
+        }
+
+        .couple-names {
+            font-size: 3.5rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .invitation-text {
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn-choice {
+            padding: 15px 40px;
+            font-size: 1rem;
+            font-family: 'Montserrat', sans-serif;
+            background-color: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            cursor: pointer;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+
+        .btn-choice:hover {
+            background-color: var(--primary-color);
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2);
+        }
+
+        /* --- TRANG CHI TIẾT (DETAILS PAGE) --- */
+        #details-page {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            padding-bottom: 50px;
+        }
+
+        .header-bar {
+            position: sticky;
+            top: 0;
+            background-color: rgba(253, 251, 247, 0.95);
+            padding: 15px 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .btn-back {
+            background: none;
+            border: none;
+            font-size: 1rem;
+            color: var(--text-main);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .header-title {
+            flex-grow: 1;
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-right: 40px; /* Cân bằng với nút back */
+        }
+
+        .section-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 2px;
+            background-color: var(--primary-color);
+            bottom: -10px;
+            left: 25%;
+        }
+
+        /* Thông tin thiệp */
+        .info-card {
+            background: #fff;
+            padding: 40px 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .info-time {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--text-main);
+        }
+
+        .info-date {
+            font-size: 2rem;
+            font-family: 'Playfair Display', serif;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        /* Album ảnh Grid */
+        .album-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .album-grid img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .album-grid img:hover {
+            transform: scale(1.03);
+        }
+
+        /* Địa chỉ / Bản đồ */
+        .map-container {
+            width: 100%;
+            height: 350px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 20px;
+            border: 1px solid #ddd;
+        }
+
+        .address-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .couple-names { font-size: 2.8rem; }
+            .btn-choice { width: 100%; }
+            .album-grid { grid-template-columns: 1fr 1fr; }
+            .album-grid img { height: 150px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- MÀN HÌNH CHỌN -->
+    <div id="landing-page">
+        <h1 class="couple-names">Chú Rể & Cô Dâu</h1>
+        <p class="invitation-text">Trân trọng kính mời tới dự lễ thành hôn</p>
+        
+        <div class="button-group">
+            <button class="btn-choice" onclick="showDetails('nhatrai')">Khách mời Nhà Trai</button>
+            <button class="btn-choice" onclick="showDetails('nhagai')">Khách mời Nhà Gái</button>
+        </div>
+    </div>
+
+    <!-- MÀN HÌNH CHI TIẾT -->
+    <div id="details-page">
+        <div class="header-bar">
+            <button class="btn-back" onclick="goBack()">
+                &#8592; Quay lại
+            </button>
+            <div class="header-title" id="page-title">Nhà Trai</div>
+        </div>
+
+        <!-- Thông tin lễ cưới -->
+        <div class="section-container">
+            <h2 class="section-title">Thông Tin Thiệp Mời</h2>
+            <div class="info-card">
+                <p class="info-time">Hôn lễ được cử hành vào lúc</p>
+                <div class="info-date" id="event-time">11:00 AM | Chủ Nhật</div>
+                <div class="info-date" id="event-date" style="font-size: 2.5rem;">22 . 09 . 2026</div>
+                <p id="event-note">Sự hiện diện của quý khách là niềm vinh hạnh cho gia đình chúng tôi.</p>
+            </div>
+        </div>
+
+        <!-- Album Ảnh -->
+        <div class="section-container">
+            <h2 class="section-title">Album Cưới</h2>
+            <div class="album-grid">
+                <img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=2070&auto=format&fit=crop" alt="Wedding Photo 1">
+                <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=2069&auto=format&fit=crop" alt="Wedding Photo 2">
+                <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=1974&auto=format&fit=crop" alt="Wedding Photo 3">
+                <img src="https://images.unsplash.com/photo-1544716164-3e91129b6fdf?q=80&w=2070&auto=format&fit=crop" alt="Wedding Photo 4">
+            </div>
+        </div>
+
+        <!-- Địa điểm -->
+        <div class="section-container">
+            <h2 class="section-title">Địa Điểm Tổ Chức</h2>
+            <p class="address-text" id="event-address">
+                <strong>Trung Tâm Tiệc Cưới ABC</strong><br>
+                Số 1, Đường Lê Duẩn, Quận 1, TP. HCM
+            </p>
+            <div class="map-container">
+                <!-- Mã nhúng Google Maps iframe. Đổi src bằng địa chỉ thực tế của bạn -->
+                <iframe id="map-iframe" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.460232421715!2d106.6997673153344!3d10.776019462143048!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f40a3b49e59%3A0xa1bd14e483a602bd!2sDinh%20%C4%90%E1%BB%99c%20L%E1%BA%ADp!5e0!3m2!1svi!2s!4v1629815049363!5m2!1svi!2s" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT CHUYỂN ĐỔI GIAO DIỆN VÀ DỮ LIỆU -->
+    <script>
+        // Dữ liệu cấu hình cho Nhà Trai và Nhà Gái
+        const weddingData = {
+            nhatrai: {
+                title: "Lễ Cưới Nhà Trai",
+                time: "11:00 AM | Chủ Nhật",
+                date: "22 . 09 . 2026",
+                address: "<strong>Tư Gia Nhà Trai</strong><br>Số 123, Đường A, Phường B, Quận C",
+                mapSrc: "https://www.google.com/maps/embed?pb=!1m18..." // Thay bằng link map nhà trai
+            },
+            nhagai: {
+                title: "Lễ Vu Quy Nhà Gái",
+                time: "09:00 AM | Thứ Bảy",
+                date: "21 . 09 . 2026",
+                address: "<strong>Trung Tâm Tiệc Cưới Nhà Gái</strong><br>Số 456, Đường X, Phường Y, Quận Z",
+                mapSrc: "https://www.google.com/maps/embed?pb=!1m18..." // Thay bằng link map nhà gái
+            }
+        };
+
+        const landingPage = document.getElementById('landing-page');
+        const detailsPage = document.getElementById('details-page');
+
+        function showDetails(side) {
+            // Cập nhật dữ liệu tương ứng
+            const data = weddingData[side];
+            document.getElementById('page-title').innerText = data.title;
+            document.getElementById('event-time').innerText = data.time;
+            document.getElementById('event-date').innerText = data.date;
+            document.getElementById('event-address').innerHTML = data.address;
+            
+            // Nếu có link map thực tế thì uncomment dòng dưới
+            // document.getElementById('map-iframe').src = data.mapSrc;
+
+            // Hiệu ứng chuyển trang
+            landingPage.style.opacity = '0';
+            setTimeout(() => {
+                landingPage.style.display = 'none';
+                detailsPage.style.display = 'block';
+                // Trigger reflow
+                void detailsPage.offsetWidth;
+                detailsPage.style.opacity = '1';
+                window.scrollTo(0, 0);
+            }, 500);
+        }
+
+        function goBack() {
+            detailsPage.style.opacity = '0';
+            setTimeout(() => {
+                detailsPage.style.display = 'none';
+                landingPage.style.display = 'flex';
+                void landingPage.offsetWidth;
+                landingPage.style.opacity = '1';
+            }, 500);
+        }
+    </script>
+</body>
+</html>
